@@ -1,0 +1,281 @@
+%%%% This Beamer example was created by LianTze Lim, April 2017.
+
+%%%% This is a VERY simple and minimalistic beamer theme,
+%%%% even reminiscent of marker pens on transparencies!
+%%%% It mimics the look of the "seminar" package, which
+%%%% can only be used with plain TeX.
+%%%% There are also some comments and example to show how
+%%%% to customise various elements, e.g. the font and colours.
+
+\documentclass[12pt]{beamer}
+%% If you'd like the default font size to be even larger, use 14pt or 17pt; these are supported by Beamer.
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{tikz}
+
+
+\makeatletter
+
+%% Set the left and right margins
+\setbeamersize{text margin left=1em,text margin right=1em}
+
+%% FONTS
+\setbeamerfont{title}{series=\bfseries,size=\LARGE}
+\setbeamerfont{subtitle}{series=\bfseries,size=\Large}
+\setbeamerfont{frametitle}{series=\bfseries,size=\small}
+\setbeamerfont{block title}{series=\bfseries,size=\normalsize}
+\setbeamerfont{footline}{size=\normalsize}
+
+%% COLOURS
+%% If you'd like everything to have the same colour
+\usebeamercolor{structure}
+\setbeamercolor{normal text}{fg=structure.fg}
+
+%% Add a line after the frametitle
+\addtobeamertemplate{frametitle}{}{\vspace*{-1ex}\rule{\textwidth}{1pt}}
+
+%% Use circular discs as itemized list markers;
+%% there's an existing option in Beamer for it so I'll use it
+\setbeamertemplate{itemize items}[circle]
+
+%% Remove default navigation symbols (We'll add the ones we need in the footline
+\setbeamertemplate{navigation symbols}{}
+
+
+%% And before the footline... actually we'd like to re-define
+%% the footline
+\setbeamertemplate{footline}{%
+   %% Beamer headlines and footlines are always full-paperwidth, so if you want the horizontal line to
+   %% not span it entirely you'll need to do a bit of arithmetic
+   \centering
+   \begin{minipage}{\dimexpr\paperwidth-\beamer@leftmargin-\beamer@rightmargin\relax}
+   \centering
+   \rule{\linewidth}{1pt}\vskip2pt
+   \usebeamerfont{footline}%
+   \usebeamercolor{footline}%
+   %% The frame number smack in the middle
+   \hfill\insertpagenumber/\inserttotalframenumber
+   \hfill%
+   %% ONLY the navigation symbols we want at the far right.
+   %% We use an \llap so that it takes up zero width, and doesn't throw the page number off-centre!
+   \llap{\insertframenavigationsymbol\insertbackfindforwardnavigationsymbol}\par
+   \end{minipage}\vskip2pt
+}
+
+\makeatother
+%%%% END STYLE CUSTOMISATION %%%%%%%%%%%%
+
+
+
+\title{IAM 517
+Basic Mathematics for Cryptography I\\
+2020-2021 Fall Semester
+Term Project Presentation
+}
+\subtitle{Searching for Best Karatsuba Recurrences}
+\author{Osman Tahsin Berktaş}
+\institute{}
+\date{February 2021}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Uncomment these lines for an automatically generated outline.
+%\begin{frame}{Outline}
+%  \tableofcontents
+%\end{frame}
+
+\section{Introduction}
+
+\begin{frame}{Introduction}
+
+\begin{itemize}
+  \item Multiplication.
+  \item Cryptographic Multiplications.
+  \item Karatsuba's algorithm.
+\end{itemize}
+
+\vskip 1cm
+
+\begin{block}{Motivation}
+Fast multiplication algorithms are among the topics actively studied for many computer multiplications studies especially cryptographic multiplications. Most of the encryption algorithms use numerical multiplication intensively. The cost of multiplying two n-digit numbers corresponds to $n^2$ complexity when done by conventional methods. Karatsuba, on the other hand, can reduce this cost to approximately $n^{1.58}$ with the solution he proposed in 1962.
+\end{block}
+
+\end{frame}
+
+
+
+%\begin{table}
+%\centering
+%\begin{tabular}{l|r}
+%Item & Quantity \\\hline
+%Widgets & 42 \\
+%Gadgets & 13
+%\end{tabular}
+%\caption{\label{tab:widgets}An example table.}
+%\end{table}
+
+\section{Literature}
+
+\begin{frame}{Literature}
+
+\begin{itemize}
+  \item Barbulescu et al \footnote{Çalık's [1] reference} \\
+  They described a unified framework to search for optimal formulae evaluating bilinear or quadratic maps. This framework applies to polynomial multiplication and squaring, finite field arithmetic, matrix multiplication, etc. They then propose a new algorithm to solve problems in this unified framework. They prove the optimality of various published upper bounds, and find improved upper bounds.
+
+  \item Haining Fan and M. Anwar Hasan. \footnote{Çalık's [8] reference}\\
+  They show that multiplication complexities of n-term Karatsuba-Like formulae of GF (2)[x] (7 < n < 19) presented in their paper which can be further improved using the Chinese Remainder Theorem and the construction multiplication.
+  
+\end{itemize}
+
+\vskip 1cm
+
+
+
+\end{frame}
+
+
+\begin{frame}{Literature}
+\begin{itemize}
+\item Montgomery et al \footnote{Çalık's [12] reference}.\\
+  They present division-free formulae which multiply two 5-term polynomials with 13 scalar multiplications, two 6-term polynomials with 17 scalar multiplications, and two 7-term polynomials with 22 scalar multiplications. Using only the 6-term formula leads to better asymptotic performance than standard Karatsuba.
+
+  
+  \item Cenk \footnote{Proposed by Ins.}.\\
+   In this paper, with their formulaes and Montgomery’s work yielding more efficient such formulae are introduced. Moreover, recent efforts to improve these results are discussed by presenting associated techniques.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Karatsuba}
+
+%\begin{tikzpicture}[Abox/.style={minimum width=3cm,draw,thick,align=left,minimum height=1cm}]
+%\node[Abox,label=above:] (a0) {};
+%\node[right=3cm of a0,Abox,label=above:] (a1)  {};
+%\end{tikzpicture}
+\begin{table}
+\centering
+\begin{tabular}{l|r}
+A & B \\\hline
+$A_0A_1$ & $B_0B_1$ \\
+\end{tabular}
+\caption{\label{tab:widgets} Representation of number 2-way division}
+\end{table}
+
+Step 1 : $A_0$ $B_0$\\
+Step 2 : $A_1$ $B_1$ \\
+Step 3 : $A_0$ $B_0$ + $A_0$ $B_1$ + $A_1$ $B_0$ + $A_1$ $B_1$ = ($A_0 + A_1$) ($B_0+B1$)\\
+Step 4 : (S3) - (S1) - (S2) = $A_0$ $B_1$ + $A_1$ $B_0$\\
+
+\vskip 1cm
+$M(2n)$ $\leq$ $3M(n)$ + $7n$ $\num{-3}$
+
+\end{frame}
+
+\begin{frame}{Karatsuba Recurrence}
+
+\textbf{1.} Find sets of bilinear forms of minimum size $\alpha$ from which the target $C_i$’s can be computed via additions only.\\
+\textbf{2.} Each set of bilinear forms determines three matrices $T$, $R$, $E$ over $F_2$.\\
+\textbf{3.} The matrices $T$, $R$, $E$ define linear maps $L_T$, $L_R$, $L_E$.\\
+\textbf{4.} Let the number of additions necessary for each of the maps be $\mu_T$, $\mu_R$, $\mu_E$ respectively.\\
+\textbf{5.} Then the maps yield the recurrence $M(kn)$ $\leq$ $\alpha$ $M(n)$ + $\beta$ $n$ + $\gamma$ with $\beta = 2\mu_T + \mu_E$ and $\gamma = \mu_R − \mu_E$.\\
+\textbf{6.} pick the best recurrence.\\\\
+\\
+\vskip 1cm
+\scriptsize :* Find, M.G., Peralta, R.: Better circuits for binary polynomial multiplication. IEEE Trans. Comput. 68(4), 624–630 (2018). https://doi.org/10.1109/TC.2018.2874662
+
+\end{frame}
+
+\begin{frame}{Çalık's Experimental Results}
+\begin{itemize}
+
+\item They looked for recurrences for 6, 7, and 8-way Karatsuba.
+\item Only symmetric bilinear forms were considered. There exist spanning sets of bases, of optimal size, that contain one or more non-symmetric bilinear forms. However, it is believed,
+but has not been proven, that there always exists an optimal size spanning set containing only symmetric bilinear forms.
+\end{itemize}
+\vskip 1cm
+
+
+\end{frame}
+
+
+\begin{frame}{Çalık's Experimental Results}
+
+\begin{itemize}
+ \item 6-way split.\\
+The search included all symmetric bilinear forms. They searched but did not find solutions with 16 multiplications. They conjecture that the multiplicative complexity of multiplying two binary polynomials of size 6 is 17. 54 solutions with 17 multiplications were found. \\
+
+$\alpha$ = 17\\
+$\beta$ = 83\\
+$\gamma$ = -26\\
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Çalık's Experimental Results}
+
+\begin{itemize}
+
+  \item 7-way split.\\
+  The search also included all symmetric bilinear forms. There are no solutions with 21 multiplications. This leads them to conjecture that the multiplicative complexity of multiplying two binary polynomials of size 7 is 22. 19550 solutions with 22 multiplications were found. Since the linear optimization problem is NP-hard, we expect that at some value of n, they decided no longer be confident that they can find the optimal solution. In practice, they aimed at running the algorithms about 100 thousand times.\\
+$\alpha$ = 22\\
+$\beta$ = 107\\
+$\gamma$ = -31
+  
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Çalık's Experimental Results}
+
+\begin{itemize}
+
+  \item 8-way split.\\
+ They were not able to improve on this, the search for solutions
+with multiplicative complexity 25 appears to require either a huge investment in computation time or an improvement in search methods. The search yielded 2079 solutions, including 63 of the 77 solutions with 6 singletons.\\
+$\alpha$ = 26\\
+$\beta$ = 147\\
+$\gamma$ = -40
+  
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Conclusion}
+
+\begin{itemize}
+
+  \item Recurrences can be leveraged into pieces for multiplication of binary polynomials of various sizes\\
+  \item They proposed and published 6,7 and 8 way split results.
+\item They found that the new recurrences improve known results for Karatsuba multiplication starting at size 28.\\
+\item Recurrences can be leveraged into pieces for multiplication of binary polynomials of various sizes\\
+\item Generated the circuits up to n = 100\\
+\item The writers suggest that a different approach to gate-efficient circuits for binary polynomial multiplication is to use interpolation methods.\\
+
+
+  
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Conclusion}
+
+\begin{center}
+Thank You
+\end{center}
+
+  
+
+\end{frame}
+
+
+\end{document}
+
+
+\end{document}
